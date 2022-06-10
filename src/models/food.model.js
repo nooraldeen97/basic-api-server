@@ -12,6 +12,7 @@ const Food=(sequelize,DataTypes)=>sequelize.define('food', {
         type: DataTypes.INTEGER
     }
   }, {
+    // freezeTableName:true
   });
 
 

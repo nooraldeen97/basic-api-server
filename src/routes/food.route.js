@@ -14,24 +14,24 @@ router.delete("/food/:id",deleteFoodHandler)
 
 async function getAllHandler(req,res){
 
-    // let allFood=await Food.findAll();
-    // res.status(200).send(allFood);
+    let allFood=await Food.readRecord();
+    res.status(200).send(allFood);
 
-    Food.findAll().then(response=>{
-        res.status(200).send(response)
-    }).catch(console.error)
+    // Food.findAll().then(response=>{
+    //     res.status(200).send(response)
+    // }).catch(console.error)
 }
 
 async function getOneHandler(req,res){
     let id=req.params.id;
-    let oneFood=await Food.findOne({where:{id:id}});
+    let oneFood=await Food.readRecord(id);
     res.status(200).send(oneFood);
 }
 
 async function addFoodHandler(req,res){
     
     let newFood=req.body;
-    let addedFood = await Food.create(newFood);
+    let addedFood = await Food.createRecord(newFood);
     res.status(201).send(addedFood);
 }
 
@@ -39,15 +39,13 @@ async function updateFoodHandler(req,res){
 
     let foodDate=req.body;
     let id=req.params.id;
-    let oneFood=await Food.findOne({where:{id:id}});
-    let updatedFood= await oneFood.update(foodDate);
-    res.send(updatedFood);
+    let oneFood=await Food.updateRecord(id,foodDate);
+    res.send(oneFood);
 }
 
 async function deleteFoodHandler(req,res){
     let id=req.params.id;
-    let oneFood=await Food.findOne({where:{id:id}});
-    let deletedFood=await oneFood.destroy();
+    let deletedFood=await Food.deleteRecord(id);
     res.status(204).send(deletedFood);
 }
 
