@@ -1,8 +1,9 @@
 "use strict";
 require("dotenv").config();
 const { Sequelize , DataTypes } = require("sequelize");
+const Collection = require("./collection-class");
 const Food=require("./food.model")
-
+const Clothes=require("./clothes.model");
 // const DATABASE_URL=process.env.DATABASE_URL;
 
 
@@ -25,13 +26,17 @@ let sequelizeOptions =
         }
         : {};
 
+
 const sequelize = new Sequelize(DATABASE_URL,sequelizeOptions);
 
 
+const foodTable=new Collection(Food(sequelize,DataTypes));
+const clothesTable=new Collection(Clothes(sequelize,DataTypes));
 
 module.exports={
     db:sequelize, //for real connection and will use it in index.js
-    Food:Food(sequelize,DataTypes) // for creating the table and will use it in our routes
+    Food:foodTable, // for creating the table and will use it in our routes
+    Clothes:clothesTable // for creating the table and will use it in our routes
 }
 
 
